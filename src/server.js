@@ -1,32 +1,61 @@
-// src/server.js
 import express from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
 import pino from 'pino-http';
-import { env } from './env.js';
-import router from './routes/contacts.js';
-import { handleError } from './middlewares/errorHandler.js';
-import { handleNotFound } from './middlewares/notFoundHandler.js';
+import session from 'express-session';
+import morgan from 'morgan';
+import { env } from './utils/env.js';
+import dotenv from 'dotenv';
+import contactsRouter from './routes/contacts.js';
+import { errorHandler } from './middlewares/errorHandlers.js';
+import { notFoundHandler } from './middlewares/notFoundHandler.js';
+
+dotenv.config();
 
 const PORT = Number(env('PORT', '3000'));
 
-export const startServer = () => {
+export const setupServer = () => {
   const app = express();
 
-  app.use(cors());
-
-  app.use(express.json());
+  app.use(
+    express.json({
+      type: ['application/json', 'application/vnd.api+json'],
+      limit: '100kb',
+    }),
+  );
+  app.use(express.urlencoded({ extended: true }));
 
   app.use(
     pino({
-      transport: { target: 'pino-pretty' },
+      transport: {
+        target: 'pino-pretty',
+      },
+    }),
+  );
+  app.use(cors());
+  app.use(helmet());
+
+  app.use(morgan('combined'));
+
+  app.use(
+    session({
+      secret: 'your-secret-key',
+      resave: false,
+      saveUninitialized: true,
+      cookie: { secure: true },
     }),
   );
 
-  app.use(router);
+  app.get('/', (req, res) => {
+    res.send(`
+      <p>Hello world! <br /> Go to <a href="/contacts">contacts list</a></p>
+    `);
+  });
 
-  app.use(handleError);
+  app.use(contactsRouter);
 
-  app.use('*', handleNotFound);
+  app.use('*', notFoundHandler);
+  app.use(errorHandler);
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

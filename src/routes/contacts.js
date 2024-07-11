@@ -1,38 +1,39 @@
 import { Router } from 'express';
+import * as contactsController from '../controllers/contacts.js';
+import { ctrlWrapper } from '../utils/ctrlWrapper.js';
+import { validateBody } from '../middlewares/validateBody.js';
+import { isValidId } from '../middlewares/isValidId.js';
 import {
-  addContact,
-  deleteContactById,
-  fetchContactById,
-  fetchContacts,
-  editContactById,
-} from '../controllers/contacts.js';
-import { wrapController } from '../utils/wrapController.js';
-import { validateContact } from '../middlewares/validateBody.js'; // Импортируем мидлвар для валидации контактов
-import validateMongoId from '../middlewares/validateMongoId.js';
+  createContactSchema,
+  updateContactSchema,
+} from '../validation/contactSchemas.js';
 
 const router = Router();
 
-router.get('/contacts', wrapController(fetchContacts));
-
+router.get(
+  '/contacts',
+  ctrlWrapper(contactsController.getAllContactsController),
+);
 router.get(
   '/contacts/:contactId',
-  validateMongoId('contactId'), // Валидация MongoDB ID
-  wrapController(fetchContactById),
+  isValidId,
+  ctrlWrapper(contactsController.getContactByIdController),
 );
-
-router.post('/contacts', validateContact, wrapController(addContact)); // Добавляем мидлвар для валидации контактов
-
+router.post(
+  '/contacts',
+  validateBody(createContactSchema),
+  ctrlWrapper(contactsController.createContactController),
+);
 router.patch(
   '/contacts/:contactId',
-  validateMongoId('contactId'), // Валидация MongoDB ID
-  validateContact, // Добавляем мидлвар для валидации контактов
-  wrapController(editContactById),
+  isValidId,
+  validateBody(updateContactSchema),
+  ctrlWrapper(contactsController.updateContactController),
 );
-
 router.delete(
   '/contacts/:contactId',
-  validateMongoId('contactId'), // Валидация MongoDB ID
-  wrapController(deleteContactById),
+  isValidId,
+  ctrlWrapper(contactsController.deleteContactController),
 );
 
 export default router;

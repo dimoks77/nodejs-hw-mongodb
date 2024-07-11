@@ -1,19 +1,18 @@
-// src/middlewares/errorHandler.js
 import { HttpError } from 'http-errors';
 
-export const handleError = (err, req, res, next) => {
+export const errorHandler = (err, req, res, next) => {
   if (err instanceof HttpError) {
     res.status(err.status).json({
       status: err.status,
-      message: err.name,
-      data: err.message,
+      message: err.message,
+      data: err,
     });
     return;
   }
 
   res.status(500).json({
     status: 500,
-    message: 'An unexpected error occurred',
+    message: 'Something went wrong',
     data: err.message,
   });
 };

@@ -1,13 +1,11 @@
-// src/middlewares/isValidId.js
-import createHttpError from 'http-errors';
 import { isValidObjectId } from 'mongoose';
+import createHttpError from 'http-errors';
 
-const validateId = (req, res, next) => {
+export const isValidId = (req, res, next) => {
   const { contactId } = req.params;
   if (!isValidObjectId(contactId)) {
-    return next(createHttpError(404, `'${contactId}' is not a valid id`));
+    next(createHttpError(400, 'Invalid contact ID format'));
+  } else {
+    next();
   }
-  next();
 };
-
-export default validateId;
