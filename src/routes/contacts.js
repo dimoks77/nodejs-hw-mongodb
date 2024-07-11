@@ -1,4 +1,3 @@
-// src/routers/contacts.js
 import { Router } from 'express';
 import {
   addContact,
@@ -8,7 +7,8 @@ import {
   editContactById,
 } from '../controllers/contacts.js';
 import { wrapController } from '../utils/wrapController.js';
-import validateId from '../middlewares/isValidId.js';
+import { validateContact } from '../middlewares/validateBody.js'; // Импортируем мидлвар для валидации контактов
+import validateMongoId from '../middlewares/validateMongoId.js';
 
 const router = Router();
 
@@ -16,21 +16,22 @@ router.get('/contacts', wrapController(fetchContacts));
 
 router.get(
   '/contacts/:contactId',
-  validateId,
+  validateMongoId('contactId'), // Валидация MongoDB ID
   wrapController(fetchContactById),
 );
 
-router.post('/contacts', wrapController(addContact));
+router.post('/contacts', validateContact, wrapController(addContact)); // Добавляем мидлвар для валидации контактов
 
 router.patch(
   '/contacts/:contactId',
-  validateId,
+  validateMongoId('contactId'), // Валидация MongoDB ID
+  validateContact, // Добавляем мидлвар для валидации контактов
   wrapController(editContactById),
 );
 
 router.delete(
   '/contacts/:contactId',
-  validateId,
+  validateMongoId('contactId'), // Валидация MongoDB ID
   wrapController(deleteContactById),
 );
 
