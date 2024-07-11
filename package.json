@@ -25,6 +25,8 @@
     "helmet": "^7.1.0",
     "mongoose": "^8.5.0",
     "morgan": "^1.10.0",
-    "pino-http": "^10.2.0"
+    "pino": "^9.2.0",
+    "pino-http": "^10.2.0",
+    "pino-pretty": "^11.2.1"
   }
 }
