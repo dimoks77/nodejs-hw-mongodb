@@ -1,6 +1,7 @@
 // src/models/initMongoConnection.js
 import mongoose from 'mongoose';
-import { env } from '../env.js';
+// import { env } from '../env.js';
+import { env } from '../utils/env';
 
 export const initializeMongoConnection = async () => {
   try {
