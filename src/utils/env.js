@@ -1,3 +1,4 @@
+// src/env.js
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -9,5 +10,5 @@ export function env(name, defaultValue) {
 
   if (defaultValue) return defaultValue;
 
-  throw new Error(`Missing environment variable: process.env['${name}']`);
+  throw new Error(`Missing: process.env['${name}'].`);
 }
