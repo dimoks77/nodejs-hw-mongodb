@@ -11,14 +11,12 @@ import {
 
 const authRouter = Router();
 
-authRouter.post(
-  '/register',
+authRouter.post('/register',
   validateBody(registerUserSchema),
   ctrlWrapper(registerUserController),
 );
 
-authRouter.post(
-  '/login',
+authRouter.post('/login',
   validateBody(loginUserSchema),
   ctrlWrapper(loginUserController),
 );
