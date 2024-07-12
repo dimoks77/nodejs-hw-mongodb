@@ -10,7 +10,7 @@ import cookieParser from 'cookie-parser';
 import rootRouter from './routes/index.js';
 import { errorHandler } from './middlewares/errorHandlers.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
-import { UPLOAD_DIR } from './constants/index.js';
+import { UPLOAD_DIR, SWAGGER_PATH } from './constants/index.js';
 import { swaggerDocs } from './middlewares/swaggerDocs.js';
 
 dotenv.config();
@@ -55,8 +55,10 @@ export const setupServer = () => {
     res.send(`
       <p>Go to <a href="/contacts">contacts list</a></p>
       <p>API documentation <a href="/api-docs">here</a></p>
+      <p>Swagger Path: ${SWAGGER_PATH}</p>
     `);
   });
+
   app.use('/uploads', express.static(UPLOAD_DIR));
 
   app.use('/api-docs', swaggerDocs());
