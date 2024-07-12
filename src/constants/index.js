@@ -45,5 +45,8 @@ if (cwd.endsWith('/src')) {
   cwd = cwd.replace(/\/src$/, '');
 }
 
-export const SWAGGER_PATH = path.join(process.cwd(), 'docs', 'swagger.json');
+// export const SWAGGER_PATH = path.join(process.cwd(), 'docs', 'swagger.json');
+
+export const SWAGGER_PATH = '/opt/render/project/src/docs/swagger.json';
+
 // export const SWAGGER_PATH = process.env.SWAGGER_PATH || path.join(process.cwd(), 'docs', 'swagger.json');
