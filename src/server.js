@@ -54,6 +54,7 @@ export const setupServer = () => {
   app.get('/', (req, res) => {
     res.send(`
       <p>Go to <a href="/contacts">contacts list</a></p>
+      <p>API documentation <a href="/api-docs">here</a></p>
     `);
   });
   app.use('/uploads', express.static(UPLOAD_DIR));
