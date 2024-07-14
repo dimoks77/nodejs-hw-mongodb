@@ -19,6 +19,11 @@ export const SORT_ORDER = {
 export const FIFTEEN_MINUTES = 15 * 60 * 1000;
 export const ONE_DAY = 24 * 60 * 60 * 1000;
 
+// export const ROLES = {
+//   OWNER: 'owner',
+//   PARENT: 'parent',
+// };
+
 export const SMTP = {
   SMTP_HOST: 'SMTP_HOST',
   SMTP_PORT: 'SMTP_PORT',
@@ -40,13 +45,4 @@ export const CLOUDINARY = {
   API_SECRET: 'API_SECRET',
 };
 
-let cwd = process.cwd();
-if (cwd.endsWith('/src')) {
-  cwd = cwd.replace(/\/src$/, '');
-}
-
-// export const SWAGGER_PATH = path.join(process.cwd(), 'docs', 'swagger.json');
-
-export const SWAGGER_PATH = '/opt/render/project/src/docs/swagger.json';
-
-// export const SWAGGER_PATH = process.env.SWAGGER_PATH || path.join(process.cwd(), 'docs', 'swagger.json');
+export const SWAGGER_PATH = path.join(process.cwd(), 'docs', 'swagger.json');
