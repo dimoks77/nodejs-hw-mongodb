@@ -6,12 +6,9 @@ import session from 'express-session';
 import morgan from 'morgan';
 import { env } from './utils/env.js';
 import dotenv from 'dotenv';
-import cookieParser from 'cookie-parser';
-import rootRouter from './routes/index.js';
+import contactsRouter from './routes/contacts.js';
 import { errorHandler } from './middlewares/errorHandlers.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
-import { UPLOAD_DIR, SWAGGER_PATH } from './constants/index.js';
-import { swaggerDocs } from './middlewares/swaggerDocs.js';
 
 dotenv.config();
 
@@ -27,8 +24,6 @@ export const setupServer = () => {
     }),
   );
   app.use(express.urlencoded({ extended: true }));
-
-  app.use(cookieParser());
 
   app.use(
     pino({
@@ -53,17 +48,11 @@ export const setupServer = () => {
 
   app.get('/', (req, res) => {
     res.send(`
-      <p>Go to <a href="/contacts">contacts list</a></p>
-      <p>API documentation <a href="/api-docs">here</a></p>
-      <p>Swagger Path: ${SWAGGER_PATH}</p>
+      <p> Go to <a href="/contacts">contacts list</a></p>
     `);
   });
 
-  app.use('/uploads', express.static(UPLOAD_DIR));
-
-  app.use('/api-docs', swaggerDocs());
-
-  app.use(rootRouter);
+  app.use(contactsRouter);
 
   app.use('*', notFoundHandler);
   app.use(errorHandler);
