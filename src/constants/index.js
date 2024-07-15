@@ -34,8 +34,9 @@ export const SMTP = {
   FRONTEND_HOST: 'FRONTEND_HOST',
 };
 
+export const TEMPLATES_DIR = path.join(process.cwd(), 'templates');
 // export const TEMPLATES_DIR = path.join(process.cwd(), 'src', 'templates');
-export const TEMPLATES_DIR = '/opt/render/project/src/templates/';
+// export const TEMPLATES_DIR = '/opt/render/project/src/templates/';
 
 export const TEMP_UPLOAD_DIR = path.join(process.cwd(), 'temp');
 export const UPLOAD_DIR = path.join(process.cwd(), 'uploads');
